@@ -21,11 +21,13 @@ var rootCmd = &cobra.Command{
 - 自定义输出文件名格式
 - 自动生成语言间链接
 - 支持多种语言数据格式
+- MCP (Model Context Protocol) 服务器模式
 
 示例:
   multilang-gen init ./my-project
   multilang-gen gen template.html ./langs
-  multilang-gen gen template.html ./langs --output "{lang}.html"`,
+  multilang-gen gen template.html ./langs --output "{lang}.html"
+  multilang-gen mcp`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
