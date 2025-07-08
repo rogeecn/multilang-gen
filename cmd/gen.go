@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -98,7 +99,7 @@ func runGen(cmd *cobra.Command, args []string) error {
 	// 1. 读取 manifest.json（可选）
 	manifest, err := loadManifest(manifestPath)
 	if err != nil {
-		fmt.Printf("警告: 无法读取 manifest.json，将使用默认值: %v\n", err)
+		log.Warnf("警告: 无法读取 manifest.json，将使用默认值: %v\n", err)
 		manifest = &Manifest{
 			BaseURL:     "",
 			SiteName:    "Website",
@@ -150,23 +151,19 @@ func runGen(cmd *cobra.Command, args []string) error {
 		}
 
 		languages = filteredLanguages
-		fmt.Printf("只生成指定语言 (%d 种): ", len(languages))
-		for i, lang := range languages {
-			if i > 0 {
-				fmt.Print(", ")
-			}
-			fmt.Printf("%s(%s)", lang.DisplayName, lang.Code)
+		log.Infof("只生成指定语言 (%d 种): ", len(languages))
+		useLangs := []string{}
+		for _, lang := range languages {
+			useLangs = append(useLangs, fmt.Sprintf("%s(%s)", lang.DisplayName, lang.Code))
 		}
-		fmt.Println()
+		log.Infof("%s\n", strings.Join(useLangs, ", "))
 	} else {
-		fmt.Printf("找到 %d 种语言: ", len(languages))
-		for i, lang := range languages {
-			if i > 0 {
-				fmt.Print(", ")
-			}
-			fmt.Printf("%s(%s)", lang.DisplayName, lang.Code)
+		log.Infof("找到 %d 种语言: ", len(languages))
+		useLangs := []string{}
+		for _, lang := range languages {
+			useLangs = append(useLangs, fmt.Sprintf("%s(%s)", lang.DisplayName, lang.Code))
 		}
-		fmt.Println()
+		log.Infof("%s\n", strings.Join(useLangs, ", "))
 	}
 
 	// 3. 解析模板文件
@@ -185,10 +182,10 @@ func runGen(cmd *cobra.Command, args []string) error {
 		}
 
 		outputFile := strings.ReplaceAll(outputPattern, "{lang}", lang.Code)
-		fmt.Printf("生成文件: %s (%s)\n", filepath.Join(outputDir, outputFile), lang.DisplayName)
+		log.Infof("生成文件: %s (%s)\n", filepath.Join(outputDir, outputFile), lang.DisplayName)
 	}
 
-	fmt.Println("多语言文件生成完成!")
+	log.Info("多语言文件生成完成!")
 	return nil
 }
 

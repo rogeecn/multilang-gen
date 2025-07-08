@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -137,13 +138,13 @@ func runInit(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("导出英文语言包失败: %w", err)
 	}
 
-	fmt.Printf("项目模板已初始化到: %s\n", targetDir)
-	fmt.Println("包含文件:")
-	fmt.Println("  - manifest.json")
-	fmt.Println("  - langs/index.json")
-	fmt.Println("  - langs/zh-CN.json")
-	fmt.Println("  - langs/en-US.json")
-	fmt.Println("\n运行 'multilang-gen gen .' 来生成多语言文件")
+	log.Infof("项目模板已初始化到: %s", targetDir)
+	log.Info("包含文件:")
+	log.Info("  - manifest.json")
+	log.Info("  - langs/index.json")
+	log.Info("  - langs/zh-CN.json")
+	log.Info("  - langs/en-US.json")
+	log.Info("运行 'multilang-gen gen .' 来生成多语言文件")
 
 	return nil
 }

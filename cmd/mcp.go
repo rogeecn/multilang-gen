@@ -6,6 +6,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -29,6 +30,8 @@ func init() {
 }
 
 func runMCP(cmd *cobra.Command, args []string) error {
+	log.SetLevel(log.FatalLevel)
+
 	// 创建 MCP 服务器
 	s := server.NewMCPServer(
 		"multilang-gen",
@@ -40,7 +43,7 @@ func runMCP(cmd *cobra.Command, args []string) error {
 	initTool := mcp.NewTool(
 		"multilang_init",
 		mcp.WithDescription("初始化项目模板文件到指定目录，创建完整的多语言项目模板"),
-		mcp.WithString("target_dir", mcp.Description("目标目录路径，默认为当前目录")),
+		mcp.WithString("target_dir", mcp.Description("目标目录路径")),
 	)
 
 	s.AddTool(initTool, handleInitTool)
@@ -49,7 +52,7 @@ func runMCP(cmd *cobra.Command, args []string) error {
 	genTool := mcp.NewTool(
 		"multilang_gen",
 		mcp.WithDescription("根据指定目录生成多语言文件，支持自定义输出模式和语言过滤"),
-		mcp.WithString("directory", mcp.Description("项目目录路径，默认为当前目录")),
+		mcp.WithString("directory", mcp.Description("项目目录路径")),
 		mcp.WithString("output_pattern", mcp.Description("输出文件名模式，{lang} 为语言替代符，默认为 {lang}.html")),
 		mcp.WithArray(
 			"lang_codes",
