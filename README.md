@@ -70,6 +70,9 @@ go build -o multilang-gen
 
 # 初始化项目模板
 ./multilang-gen init ./my-project
+
+# 使用 MCP stdio 模式
+./multilang-gen mcp stdio
 ```
 
 ### 项目目录结构
@@ -89,14 +92,6 @@ project/
     └── en.html             # 英文页面
 ```
 
-│ ├── langs/ # 测试语言文件
-│ └── output/ # 测试输出目录
-├── Makefile # 构建脚本
-├── README.md # 项目说明
-├── requirements.md # 需求文档
-└── main.go # 主程序入口
-
-````
 
 ## 语言文件格式
 
